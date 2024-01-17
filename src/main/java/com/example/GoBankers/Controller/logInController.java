@@ -2,6 +2,7 @@ package com.example.GoBankers.Controller;
 
 import com.example.GoBankers.DTO.UserDTO;
 import com.example.GoBankers.Entity.Users;
+import com.example.GoBankers.Repo.CustomResponse;
 import com.example.GoBankers.Service.IlogInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,8 @@ public class logInController {
 
 
     @GetMapping(path = "/getUsers")
-    public List<Users> getUsers(){
-        List<Users> list = iLogInService.getUser();
+    public List<UserDTO> getUsers(){
+        List<UserDTO> list = iLogInService.getUser();
         return list;
     }
 
@@ -42,5 +43,13 @@ public class logInController {
 
         boolean removeUser = iLogInService.removeUser(id);
         return "User Removed Successfully";
+    }
+
+    @PostMapping(path = "/verifyUser")
+    public CustomResponse<Object> ResponseEntity(@RequestBody UserDTO userDTO){
+
+        CustomResponse<Object> res = iLogInService.verifyUser(userDTO);
+
+        return res;
     }
 }

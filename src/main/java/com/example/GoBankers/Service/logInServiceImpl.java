@@ -1,6 +1,7 @@
 package com.example.GoBankers.Service;
 import com.example.GoBankers.DTO.UserDTO;
 import com.example.GoBankers.Entity.Users;
+import com.example.GoBankers.Repo.CustomResponse;
 import com.example.GoBankers.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,8 @@ public class logInServiceImpl implements IlogInService{
                 userDTO.getLastName(),
                 userDTO.getMobileNo(),
                 userDTO.getEmail(),
-                userDTO.getPassword()
+                userDTO.getPassword(),
+                userDTO.getUserName()
         );
     userRepo.save(user);
 
@@ -31,12 +33,12 @@ public class logInServiceImpl implements IlogInService{
     }
 
     @Override
-    public List<Users> getUser() {
+    public List<UserDTO> getUser() {
 
-        List <Users> list = userRepo.getUsers();
-        List <Users> list1 = new ArrayList<>();
+        List <UserDTO> list = userRepo.getUsers();
+        List <UserDTO> list1 = new ArrayList<>();
 
-        for(Users user : list)
+        for(UserDTO user : list)
         {
             user.setPassword(null);
             list1.add(user);
@@ -96,5 +98,22 @@ public class logInServiceImpl implements IlogInService{
             System.out.println("Employee ID Not Found!");
         }
         return true;
+    }
+
+
+    public CustomResponse<Object> verifyUser(UserDTO userDTO) {
+        Users user = userRepo.getUserByUsername(userDTO.getUserName());
+
+        if (user != null) {
+            if(user.getUserName().equals(userDTO.getUserName()) && user.getPassword().equals(userDTO.getPassword())){
+                return new CustomResponse<>("Success", 200, "Success", null, null, true);
+            }
+            else{
+                return new CustomResponse<>("Error", 500, "Credentials not matched", null, null, true);
+            }
+        }
+        else{
+            return new CustomResponse<>("Error", 500, "User not found", null, null, false);
+        }
     }
 }

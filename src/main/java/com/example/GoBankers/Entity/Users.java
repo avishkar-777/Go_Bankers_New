@@ -30,8 +30,12 @@ public class Users {
     @Column(name="password", length = 20)
     private String password;
 
+    @Column(name="user_name", length = 50)
+    private String userName;
 
-    public Users(int userId, String firstName, String middleName, String lastName, String mobileNo, String email, String password) {
+
+
+    public Users(int userId, String firstName, String middleName, String lastName, String mobileNo, String email, String password, String userName ) {
         this.userId = userId;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -39,9 +43,10 @@ public class Users {
         this.mobileNo = mobileNo;
         this.email = email;
         this.password = password;
+        this.userName = userName;
     }
 
-    public Users(String firstName, String middleName, String lastName, String mobileNo, String email, String password) {
+    public Users(String firstName, String middleName, String lastName, String mobileNo, String email, String password, String userName) {
 //        this.userId = userId;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -49,6 +54,7 @@ public class Users {
         this.mobileNo = mobileNo;
         this.email = email;
         this.password = password;
+        this.userName = userName;
     }
 
 
@@ -109,6 +115,14 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override
